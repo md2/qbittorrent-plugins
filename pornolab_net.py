@@ -84,29 +84,27 @@ class pornolab_net(object):
     def download_torrent(self, url):
         try:
             self._sign_in()
-            opener = self._opener
-            cj = self._cj
+            cookie = cookielib.Cookie(
+                version = 0,
+                name = 'bb_dl',
+                value = url.split('=')[-1],
+                port = None,
+                port_specified = False,
+                domain = self.domain,
+                domain_specified = True,
+                domain_initial_dot = True,
+                path = '/forum/',
+                path_specified = True,
+                secure = False,
+                expires = int(time()) + 5 * 60,
+                discard = False,
+                comment = None,
+                comment_url = None,
+                rest = {'http_only': None}
+            )
+            self._cj.set_cookie(cookie)
+            data = self._opener.open(url).read()
             with tempfile.NamedTemporaryFile(delete=False) as tmpfile:
-                cookie = cookielib.Cookie(
-                    version = 0,
-                    name = 'bb_dl',
-                    value = url.split('=')[-1],
-                    port = None,
-                    port_specified = False,
-                    domain = self.domain,
-                    domain_specified = True,
-                    domain_initial_dot = True,
-                    path = '/forum/',
-                    path_specified = True,
-                    secure = False,
-                    expires = int(time()) + 5 * 60,
-                    discard = False,
-                    comment = None,
-                    comment_url = None,
-                    rest = {'http_only': None}
-                )
-                cj.set_cookie(cookie)
-                data = opener.open(url).read()
                 tmpfile.write(data)
                 name = tmpfile.name
             print name, url
