@@ -145,7 +145,7 @@ class pornolab_net(object):
             self._parse_document(data)
 
             re_page = re.compile(u'\xd1\xf2\xf0\xe0\xed\xe8\xf6\xe0 <b>1</b> \xe8\xe7 <b>(\d+)</b>')
-            m =  re_page.search(data)
+            m = re_page.search(data)
             if m:
                 page_count = int(m.group(1))
                 re_search_id = re.compile('search_id=([0-9a-zA-Z]+)')
